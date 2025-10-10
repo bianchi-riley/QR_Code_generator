@@ -14,10 +14,9 @@ const qrCodeSchema = new mongoose.Schema({
       default: Date.now
     },
     utente: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",   // riferimento all'utente creatore
+      type: String,
       required: true
     }
   });
 
-  const QR_Code = mongoose.model("QR_Code", qrCodeSchema);
+  module.exports = mongoose.model("QR_Code", qrCodeSchema);
