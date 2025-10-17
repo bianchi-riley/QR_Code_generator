@@ -14,9 +14,9 @@ const QR_Code = require("../models/qr_code");
   ]);
       await QR_Code.deleteMany({});
       await QR_Code.insertMany([
-        {titolo: "di marco", contenuto: "ciao da marco", utente: "marco"},
-        {titolo: "di franco", contenuto: "ciao da franco", utente: "franco"},
-        {titolo: "di carlo", contenuto: "ciao da carlo", utente: "carlo"}
+        {titolo: "di marco", contenuto: "ciao da marco", utente: "marco", privato: false},
+        {titolo: "di franco", contenuto: "ciao da franco", utente: "franco", privato: false},
+        {titolo: "di carlo", contenuto: "ciao da carlo", utente: "carlo", privato: true}
   ]);
       console.log('Seed completato');
       process.exit(0);

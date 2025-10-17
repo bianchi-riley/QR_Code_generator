@@ -1,0 +1,50 @@
+:root{
+    font-family:system-ui,Arial,sans-serif;
+}
+
+body{
+    margin: 0;
+    background-color: #fff;
+    color: #000;
+    font-size: 1em;
+}
+
+.navbar {
+    background: #000;
+    color: #fff;
+    padding: .45rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar form button {
+    background: none;
+    color: #ffffff;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: .95em;
+}
+
+.introduction{
+    text-align: center;
+}
+
+.introduction h1{
+    font-size: 3.5em;
+}

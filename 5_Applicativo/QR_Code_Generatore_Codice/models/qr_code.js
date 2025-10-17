@@ -16,6 +16,10 @@ const qrCodeSchema = new mongoose.Schema({
     utente: {
       type: String,
       required: true
+    },
+    privato: {
+      type: Boolean,
+      require: true
     }
   });
 

@@ -4,6 +4,27 @@
         {{> _head}}
     </head>
     <body>
-        <h1>BENVENUTO!</h1>
+        {{> _nav}}
+        <div class="introduction">
+        <h1>WELCOME!</h1>
+        <h2>On this website, you’ll have the chance to create QR codes for almost anything <br>and share them with the community!</h2>
+        </div>
+
+        <h2>QR pubblici:</h2>
+
+        {{#if publicQR.length}}
+        <ul>
+            {{#each publicQR}}
+            <li>
+                <strong>{{titolo}}</strong><br>
+                {{contenuto}}<br>
+                <small>Creato il: {{data}}</small>
+            </li>
+            {{/each}}
+        </ul>
+        {{else}}
+        <p>Nessun QR pubblico disponibile.</p>
+        {{/if}}
+
     </body>
 </html>
