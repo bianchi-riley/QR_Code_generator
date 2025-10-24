@@ -2,15 +2,20 @@
   <ul class="nav-left">
     <li><a href="/">Home</a></li>
     <li><a href="#">Generate QR</a></li>
-    <li><a href="#">Your QRs</a></li>
+    {{#if currentUser}}
+      <li><a href="#">Your QRs</a></li>
+    {{/if}}
   </ul>
   <ul class="nav-right">
-    <li><p class="welcome">welcome x</p></li>
-    <li><a href="#">Login</a></li>
-    <li>
-      <form action="#" method="post" style="display:inline;">
-        <button type="submit">Logout</button>
-      </form>
-    </li>
+    {{#if currentUser}}
+      <li><p class="welcome">welcome {{currentUser.username}}</p></li>
+      <li>
+        <form action="#" method="post" style="display:inline;">
+          <button type="submit">Logout</button>
+        </form>
+      </li>
+    {{else}}
+      <li><a href="#">Login</a></li>
+    {{/if}}
   </ul>
 </nav>

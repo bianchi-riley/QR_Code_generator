@@ -10,21 +10,58 @@
         <h2>On this website, you’ll have the chance to create QR codes for almost anything <br>and share them with the community!</h2>
         </div>
 
-        <h2>QR pubblici:</h2>
+        <div class="search-container">
+            <form action="/search" method="POST">
+            <input type="text" placeholder="Search title or author" name="search">
+            </form>
+        </div>
 
-        {{#if publicQR.length}}
-        <ul>
-            {{#each publicQR}}
-            <li>
+        {{#if homeQR.length}}
+        <div class="qr-container">
+            {{#each homeQR}}
+            <div class="qr-card" onclick="apriPopup('{{titolo}}', '{{contenuto}}', '{{utente}}', '{{formatDate data}}')">
                 <strong>{{titolo}}</strong><br>
                 {{contenuto}}<br>
-                <small>Creato il: {{data}}</small>
-            </li>
+                <div class="qr-card-footer">
+                    <span>author: {{utente}}</span>
+                    <span>created the: {{formatDate data}}</span>
+                </div>
+            </div>
             {{/each}}
-        </ul>
+        </div>
         {{else}}
         <p>Nessun QR pubblico disponibile.</p>
         {{/if}}
 
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="chiudi" onclick="chiudiPopup()">&times;</span>
+                <h3 id="popup-titolo"></h3>
+                <p id="popup-contenuto"></p>
+                <div class="popup-footer">
+                    <span id="popup-autore"></span>
+                    <span id="popup-data"></span>
+                </div>
+            </div>
+        </div>
+
     </body>
+    <script>
+        function apriPopup(titolo, contenuto, utente,  data){
+            document.getElementById("popup-titolo").textContent = titolo;
+            document.getElementById("popup-contenuto").textContent = contenuto;
+            document.getElementById("popup-autore").textContent = "author: " + utente;
+            document.getElementById("popup-data").textContent = "created the: " + data;
+
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function chiudiPopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        window.onclick = function(e) {
+            if (e.target.id === "popup") chiudiPopup();
+        }
+    </script>
 </html>
