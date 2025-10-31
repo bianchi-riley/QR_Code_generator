@@ -16,6 +16,8 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
 }
 
 .navbar ul {
@@ -32,21 +34,50 @@ body{
     text-decoration: none;
 }
 
-.navbar form button {
+.welcome {
+    font-size: 0.9rem;
+    opacity: .9;
+    margin: 0;
+}
+
+.navbar button {
     background: none;
     color: #ffffff;
     border: none;
     padding: 0;
     margin: 0;
     font-size: .95em;
+    cursor: pointer;
 }
 
 .introduction{
     text-align: center;
+    max-width: 1000px;
+    margin: 0.1rem auto;
+    padding: 0.4rem;
 }
 
 .introduction h1{
     font-size: 3.5em;
+}
+
+.message {
+    background: #d8d8d8;
+    border: 1px solid #636363;
+    font-weight: 400;
+    padding: .5rem .75rem;
+    border-radius: 13px;
+    font-size: 1.1rem;
+}
+
+.error {
+    background: #ff9191;
+    border: 1px solid #ff3434;
+    padding: .5rem;
+    border-radius: 13px;
+    font-size: 1.1rem;
+    font-weight: 400;
+    width: 100%;
 }
 
 .qr-container {
@@ -54,14 +85,14 @@ body{
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 16px;
     justify-content: start;
-    margin: 20px;
+    margin: 1.2rem;
 }
 
 .search-container{
     display: flex;
 }
 
-input[type="text"] {
+.search {
     margin-left: 20px;
     padding: 5px;
     width: 200px;
@@ -80,6 +111,7 @@ input[type="text"] {
     background-color: #fff;
     text-align: center;
     font-size: 1em;
+    max-width: 280px;
 }
 
 .qr-card-footer{
@@ -128,3 +160,39 @@ input[type="text"] {
     font-size: 24px;
     cursor: pointer;
 }
+
+.Form {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.Form label {
+    display: block;
+    margin-top: 0.4rem;
+}
+
+.Form input {
+    width: 100%;
+    padding: .5rem;
+    margin: .25rem 0 .5rem;
+    border: 1px solid #ccc;
+    border-radius: 13px
+}
+
+.Form button {
+    margin-top: .8rem;
+    padding: .4rem 1.3rem;
+    font-size: 1.1rem;
+    border-radius: 13px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+
+
+

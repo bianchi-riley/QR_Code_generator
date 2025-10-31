@@ -1,7 +1,7 @@
 <nav class="navbar">
   <ul class="nav-left">
     <li><a href="/">Home</a></li>
-    <li><a href="#">Generate QR</a></li>
+    <li><a href="/generate_QR">Generate QR</a></li>
     {{#if currentUser}}
       <li><a href="#">Your QRs</a></li>
     {{/if}}
@@ -10,12 +10,23 @@
     {{#if currentUser}}
       <li><p class="welcome">welcome {{currentUser.username}}</p></li>
       <li>
-        <form action="#" method="post" style="display:inline;">
-          <button type="submit">Logout</button>
-        </form>
+          <button onclick="Confirm()">Logout</button>
       </li>
     {{else}}
-      <li><a href="#">Login</a></li>
+      <li><a href="/login">Login</a></li>
     {{/if}}
   </ul>
 </nav>
+
+<script>
+  function Confirm(){
+    if(confirm("Are u sure u want to log out") == true){
+      return fetch("logout", { method: "post"})
+      .then(response => {
+        if (response.redirected) {
+          window.location.href = response.url;
+        }
+      })
+    }
+  }
+</script>

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 const QR_Code = require("../models/qr_code");
+const { requireAuth } = require("../middleware/auth");
 
 router.get("/", async(req, res) => {
     try {
@@ -14,8 +15,6 @@ router.get("/", async(req, res) => {
         console.error("An error as occured while searching pubblic QRs");
         res.status(500).send("An error as occured while loading the home page")
     }
-    
-    
 });
 
 router.post("/search", async(req, res) => {
@@ -42,16 +41,22 @@ router.post("/search", async(req, res) => {
         // Troviamo i documenti direttamente nel DB
         const homeQR = await QR_Code.find({ $or: orQuery });
 
-        res.render("home", { title: "Home", msg, homeQR});
+        res.render("home", { title: "Home", msg, homeQR });
 
     } catch (err) {
         console.error("An error as occured while searching QRs")
         res.status(500).send("An error as occured while loading the home page")
     }
-    
-    
+});
 
+router.get("/generate_QR", requireAuth, (req, res) => {
+    try {
+
+    } catch (err) {
+        next(err);
+    }
 })
+    
 
 
 

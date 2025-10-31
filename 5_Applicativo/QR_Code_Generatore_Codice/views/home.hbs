@@ -6,13 +6,16 @@
     <body>
         {{> _nav}}
         <div class="introduction">
-        <h1>WELCOME!</h1>
-        <h2>On this website, you’ll have the chance to create QR codes for almost anything <br>and share them with the community!</h2>
+            {{#if msg}}
+                <p class="message">{{msg}}</p>
+            {{/if}}
+            <h1>WELCOME!</h1>
+            <h2>On this website, you’ll have the chance to create QR codes for almost anything <br>and share them with the community!</h2>
         </div>
 
         <div class="search-container">
             <form action="/search" method="POST">
-            <input type="text" placeholder="Search title or author" name="search">
+            <input type="text" class="search" placeholder="Search title or author" name="search">
             </form>
         </div>
 

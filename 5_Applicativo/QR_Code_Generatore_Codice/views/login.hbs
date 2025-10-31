@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        {{> _head}}
+    </head>
+    <body>
+        {{> _nav}}
+        <div class="introduction">
+            {{#if msg}}
+                <p class="message">{{msg}}</p>
+            {{/if}}
+            <h1>LOGIN</h1>
+            <h2>Sign in to unlock more functionality</h2>
+        </div>
+
+        <form action="/login" method="post" class="Form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            {{#if errorU}}
+                <p class="error">{{errorU}}</p>
+            {{/if}}
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            {{#if errorP}}
+                <p class="error">{{errorP}}</p>
+            {{/if}}
+
+            <button type="submit">Login</button>
+
+            <p>U don't have an account click here to <a href="/create_account">create</a> one</p>
+        </form>
+    </body>
+</html>

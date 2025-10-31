@@ -2,29 +2,45 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const User = require("../models/users");
 const QR_Code = require("../models/qr_code");
+const bcrypt = require("bcrypt");
 
 (async () => {
     try {
       await mongoose.connect(process.env.MONGODB_URI);
       await User.deleteMany({});
-      await User.insertMany([
-        {username: "marco", password: "nqjdld"},
-        {username: "franco", password: "laownfl"},
-        {username: "carlo", password: "owpfnal"},
-        {username: "luca", password: "qerzti"},
-        {username: "marta", password: "plxwen"},
-        {username: "giulia", password: "ndtrsa"},
-        {username: "andrea", password: "uvqlei"},
-        {username: "francesca", password: "tpsmdo"},
-        {username: "sofia", password: "lyqwen"},
-        {username: "giorgio", password: "fzupko"},
-        {username: "valentina", password: "hmrsal"},
-        {username: "riccardo", password: "pejvta"},
-        {username: "chiara", password: "slbqno"},
-        {username: "alessio", password: "rmxtye"},
-        {username: "federica", password: "wqnpla"},
-        {username: "davide", password: "tbxero"}
-  ]);
+      // Dati fittizi con password in chiaro (verranno hashate dopo)
+      const users = [
+        { username: "marco", password: "nqjdld" },
+        { username: "franco", password: "laownfl" },
+        { username: "carlo", password: "owpfnal" },
+        { username: "luca", password: "qerzti" },
+        { username: "marta", password: "plxwen" },
+        { username: "giulia", password: "ndtrsa" },
+        { username: "andrea", password: "uvqlei" },
+        { username: "francesca", password: "tpsmdo" },
+        { username: "sofia", password: "lyqwen" },
+        { username: "giorgio", password: "fzupko" },
+        { username: "valentina", password: "hmrsal" },
+        { username: "riccardo", password: "pejvta" },
+        { username: "chiara", password: "slbqno" },
+        { username: "alessio", password: "rmxtye" },
+        { username: "federica", password: "wqnpla" },
+        { username: "davide", password: "tbxero" }
+      ];
+
+      // 🔐 Hash delle password prima dell’inserimento
+      const saltRounds = 10;
+      const usersWithHashedPasswords = await Promise.all(
+        users.map(async (user) => ({
+          username: user.username,
+          password: await bcrypt.hash(user.password, saltRounds),
+        }))
+      );
+
+      // Inserisci nel database
+      
+      await User.insertMany(usersWithHashedPasswords);
+
       await QR_Code.deleteMany({});
       await QR_Code.insertMany([
         {titolo: "di marco", contenuto: "ciao da marco", utente: "marco", privato: false},

@@ -60,7 +60,7 @@ app.use(cookieSession({
 app.use(currentUserUser);
 
 app.use(pagesRouter);
-//app.use(authRouter);
+app.use(authRouter);
 
 app.listen(PORT, () =>{
     console.log("attivo")
