@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        {{> _head}}
+    </head>
+    <body>
+        {{> _nav}}
+        <div class="introduction">
+            <h1>GENERATE YOUR QR</h1>
+            <h2>Create and share your QR codes in seconds</h2>
+        </div>
+
+        <form action="/generate" method="post" class="Form">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required>
+            <label for="content">Content</label>
+            <small for="sub-content">Either enter some text/URL, or choose a file from your device.</small>
+            <div class="hybrid-input">
+                <input type="text" name="content" placeholder="Enter text or a URL...">
+                <label class="custom-file-upload">
+                    <input type="file" name="file" id="file">
+                    Select file
+                </label>
+                <span class="file-name" id="fileName">No file selected</span>
+            </div>
+            <label for="public">Public</label>
+            <input type="checkbox" id="checkboxP" name="checkboxP">
+
+            <button type="submit">Generate</button>
+        </form>
+    </body>
+
+    <script>
+        // Mostra il nome del file scelto
+        const fileInput = document.getElementById('file');
+        const fileName = document.getElementById('fileName');
+
+        fileInput.addEventListener('change', () => {
+            console.log("dentro");
+            if (fileInput.files.length > 0) {
+                fileName.textContent = fileInput.files[0].name;
+            } else {
+                fileName.textContent = "Nessun file selezionato";
+            }
+        });
+    </script>
+</html>

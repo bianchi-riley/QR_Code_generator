@@ -180,6 +180,16 @@ body{
     border-radius: 13px
 }
 
+.Form input[type="checkbox"] {
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 21px;
+    height: 21px;
+    left: 50px;
+    top: -18.5px;
+}
+
 .Form button {
     margin-top: .8rem;
     padding: .4rem 1.3rem;
@@ -192,7 +202,37 @@ body{
     display: inline-block;
 }
 
+.hybrid-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
 
+/* Nascondi l'input reale */
+.Form input[type="file"] {
+    display: none;
+}
 
+.Form small{
+    color: #636363;
+}
 
+/* Stile del "bottone" personalizzato */
+.custom-file-upload {
+    max-width: 75px;
+    margin-top: .8rem;
+    padding: .5rem 1.3rem;
+    font-size: 1.1rem;
+    border-radius: 13px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
 
+.file-name {
+    margin-left: 10px;
+    font-style: italic;
+}
