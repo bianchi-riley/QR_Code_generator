@@ -5,6 +5,10 @@ const qrCodeSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    qr_image: {
+      type: String,
+      required: true
+    },
     contenuto: {
       type: String,
       required: true
@@ -17,7 +21,7 @@ const qrCodeSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    privato: {
+    pubblico: {
       type: Boolean,
       require: true
     }

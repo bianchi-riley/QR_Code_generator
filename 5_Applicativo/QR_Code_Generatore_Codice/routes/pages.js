@@ -4,7 +4,12 @@ const User = require("../models/users");
 const QR_Code = require("../models/qr_code");
 const Gen_QR = require("qrcode");
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const { requireAuth } = require("../middleware/auth");
+
+const storage = multer.memoryStorage(); // il file rimane in RAM
+const upload = multer({ storage: storage });
 
 router.get("/", async(req, res) => {
     try {
@@ -61,23 +66,56 @@ router.get("/generate_QR", requireAuth, (req, res) => {
     }
 });
 
-router.post("/generate", requireAuth, async(req, res) =>{
+router.post("/generate", requireAuth, upload.single("file"), async(req, res) =>{
     try{
         const { msg } = req.query;
-        const { title, content} = req.body;
+        const {title, content} = req.body;
         const username = req.session.username;
         const public = req.body.checkboxP === "on";
 
-        await Gen_QR.toFile("qr.png", content);
-        console.log(qr);
+        // Controllo: niente input
+        if (!content && !req.file) {
+            return res.status(400).render("generate_QR", {
+                title: "Generate_QR",
+                errorC: "You have not entered any text or file. Please choose one of the two."
+            });
+        }
 
-        res.render("generate_QR", {title: "Generate_QR", msg});
+        // Controllo: entrambi presenti
+        if (content && req.file) {
+            return res.status(400).render("generate_QR", {
+                title: "Generate_QR",
+                errorC: "You've entered both text and file. Choose only one."
+            });
+        }
+
+        let finalContent = content || null;
+
+        if (req.file) {
+            const newFileName =  Date.now() + "-" + req.file.originalname
+            const uploadPath = path.join("uploads", newFileName); // cartella uploads
+            fs.writeFile(uploadPath, req.file.buffer, (err) => {
+                if (err) {
+                    return res.status(500).send("Error saving file");
+                }
+            });
+
+            finalContent = "/uploads/" + newFileName;
+        }
+
+        const qrBase64 = await Gen_QR.toDataURL(finalContent);
+
+        const newQR = new QR_Code({titolo: title, qr_image: qrBase64, contenuto: finalContent, utente: username, pubblico: public});
+        
+        
+
+        await newQR.save();
+
+
     } catch (err) {
-        next(err);
+        //next(err);
+        console.log(err);
     }
 })
     
 module.exports = router;
-
-
-//url = "https://public-api.qr-code-generator.com/v1/create/free?image_format=SVG&image_width=500&foreground_color=%23000000&frame_color=%23000000&frame_name=no-frame&qr_code_logo=&qr_code_pattern=&qr_code_text={$Text}"
