@@ -15,44 +15,49 @@ router.get("/", async(req, res) => {
     try {
         const { msg } = req.query;
 
-        const homeQR = await QR_Code.find({privato: false}).lean();
+        const listQR = (await QR_Code.find({pubblico: true})).reverse();
 
-        res.render("home", { title: "Home", msg, homeQR});
+        res.render("home", { title: "Home", msg, listQR});
     }catch (err){
         console.error("An error as occured while searching pubblic QRs");
         res.status(500).send("An error as occured while loading the home page")
     }
 });
 
-router.post("/search", async(req, res) => {
+router.post("/search_home", async(req, res) => {
     try{
 
         const { msg } = req.query;
 
         const searched = req.body.search;
     
-        // Prendiamo un documento per capire quali campi contengono stringhe
-        const sample = await QR_Code.findOne();
-        if (!sample) return res.render("home", { qrCodes: [] });
-    
-        // Generiamo i campi su cui cercare
-        const fields = Object.keys(sample.toObject()).filter(
-            key => typeof sample[key] === "string"
-        );
-    
-        // Creiamo la query $or con regex
-        const orQuery = fields.map(field => ({
-            [field]: { $regex: searched, $options: "i" }
-        }));
-    
-        // Troviamo i documenti direttamente nel DB
-        const homeQR = await QR_Code.find({ $or: orQuery });
+        const listQR = (await QR_Code.find({$or: [
+            { titolo: { $regex: searched, $options: "i" } },
+            { utente: { $regex: searched, $options: "i" } }
+          ], pubblico: true })).reverse();
 
-        res.render("home", { title: "Home", msg, homeQR });
+        res.render("home", { title: "Home", msg, listQR });
 
     } catch (err) {
         console.error("An error as occured while searching QRs")
         res.status(500).send("An error as occured while loading the home page")
+    }
+});
+
+router.post("/search_personal", async(req, res) => {
+    try{
+
+        const { msg } = req.query;
+
+        const searched = req.body.search;
+    
+        const listQR = (await QR_Code.find({ utente: req.session.username, titolo: {$regex: searched, $options: "i"}})).reverse();
+
+        res.render("your_QRs", { title: "Your QRs", msg, listQR });
+
+    } catch (err) {
+        console.error("An error as occured while searching QRs")
+        res.status(500).send("An error as occured while loading the your QRs page")
     }
 });
 
@@ -89,7 +94,7 @@ router.post("/generate", requireAuth, upload.single("file"), async(req, res) =>{
             });
         }
 
-        let finalContent = content || null;
+        let finalContent = content.trim() || null;
 
         if (req.file) {
             const newFileName =  Date.now() + "-" + req.file.originalname
@@ -100,22 +105,33 @@ router.post("/generate", requireAuth, upload.single("file"), async(req, res) =>{
                 }
             });
 
-            finalContent = "/uploads/" + newFileName;
+            finalContent = `${req.protocol}://${req.get("host")}/uploads/${newFileName}`;
         }
 
         const qrBase64 = await Gen_QR.toDataURL(finalContent);
 
         const newQR = new QR_Code({titolo: title, qr_image: qrBase64, contenuto: finalContent, utente: username, pubblico: public});
-        
-        
 
         await newQR.save();
 
+        res.redirect("/generate_QR?msg=Generation%20succesfull");
 
     } catch (err) {
-        //next(err);
-        console.log(err);
+        next(err);
     }
 })
+
+router.get("/your_QRs", async(req, res) => {
+    try {
+        const { msg } = req.query;
+
+        const listQR = await QR_Code.find({utente: req.session.username}).lean();
+
+        res.render("your_QRs", { title: "Your QRs", msg, listQR});
+    }catch (err){
+        console.error(`An error as occured while searching ${req.session.username} QRs`);
+        res.status(500).send("An error as occured while loading the your QRs page")
+    }
+});
     
 module.exports = router;

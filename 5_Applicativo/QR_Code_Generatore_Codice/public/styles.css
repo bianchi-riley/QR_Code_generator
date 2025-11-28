@@ -82,10 +82,10 @@ body{
 
 .qr-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, auto));
     gap: 16px;
     justify-content: start;
-    margin: 1.2rem;
+    margin: 1.2rem 4.4rem;
 }
 
 .search-container{
@@ -93,7 +93,7 @@ body{
 }
 
 .search {
-    margin-left: 20px;
+    margin-left: 4.4rem;
     padding: 5px;
     width: 200px;
     border: 2px solid #ccc;
@@ -126,6 +126,15 @@ body{
     font-size: 1.3em;
 }
 
+.qr {
+    width: 130px;
+    height: 130px;
+}
+
+.not-found{
+    margin-left: 4.4rem;
+}
+
 .popup {
     display: none;
     position: fixed;
@@ -153,6 +162,12 @@ body{
     display: flex;
     justify-content: space-between;
     font-size: 0.9em;
+}
+
+.print {
+    float: left;
+    font-size: 24px;
+    cursor: pointer;
 }
   
 .chiudi {

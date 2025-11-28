@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        {{> _head}}
+    </head>
+    <body>
+        {{> _nav}}
+        <div class="introduction">
+            <h1>YOUR QRs</h1>
+            <h2>View all the QR codes you've created</h2>
+        </div>
+
+        <div class="search-container">
+            <form action="/search_personal" method="POST">
+            <input type="text" class="search" placeholder="Search title" name="search">
+            </form>
+        </div>
+
+        {{#if listQR.length}}
+        <div class="qr-container">
+            {{#each listQR}}
+            <div class="qr-card" onclick="apriPopup('{{titolo}}', '{{qr_image}}', '{{utente}}', '{{formatDate data}}')">
+                <strong>{{titolo}}</strong><br>
+                <img src="{{qr_image}}" alt="qr-code" class="qr"><br>
+                <div class="qr-card-footer">
+                    <span>author: {{utente}}</span>
+                    <span>created: {{formatDate data}}</span>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p class="not-found">No QR codes has been found</p>
+        {{/if}}
+
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="chiudi" onclick="chiudiPopup()">&times;</span>
+                <h3 id="popup-titolo"></h3>
+                <img src="" id="popup-qr" class="qr"></img>
+                <div class="popup-footer">
+                    <span id="popup-autore"></span>
+                    <span id="popup-data"></span>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script>
+        function apriPopup(titolo, qr_image, utente,  data){
+            document.getElementById("popup-titolo").textContent = titolo;
+            document.getElementById("popup-qr").src = qr_image;
+            document.getElementById("popup-autore").textContent = "author: " + utente;
+            document.getElementById("popup-data").textContent = "created the: " + data;
+
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function chiudiPopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        window.onclick = function(e) {
+            if (e.target.id === "popup") chiudiPopup();
+        }
+    </script>
+</html>

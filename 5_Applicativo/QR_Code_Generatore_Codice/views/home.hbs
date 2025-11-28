@@ -14,33 +14,34 @@
         </div>
 
         <div class="search-container">
-            <form action="/search" method="POST">
+            <form action="/search_home" method="POST">
             <input type="text" class="search" placeholder="Search title or author" name="search">
             </form>
         </div>
 
-        {{#if homeQR.length}}
+        {{#if listQR.length}}
         <div class="qr-container">
-            {{#each homeQR}}
-            <div class="qr-card" onclick="apriPopup('{{titolo}}', '{{contenuto}}', '{{utente}}', '{{formatDate data}}')">
+            {{#each listQR}}
+            <div class="qr-card" onclick="apriPopup('{{titolo}}', '{{qr_image}}', '{{utente}}', '{{formatDate data}}')">
                 <strong>{{titolo}}</strong><br>
-                {{contenuto}}<br>
+                <img src="{{qr_image}}" alt="qr-code" class="qr"><br>
                 <div class="qr-card-footer">
                     <span>author: {{utente}}</span>
-                    <span>created the: {{formatDate data}}</span>
+                    <span>created: {{formatDate data}}</span>
                 </div>
             </div>
             {{/each}}
         </div>
         {{else}}
-        <p>Nessun QR pubblico disponibile.</p>
+        <p class="not-found">No QR codes has been found</p>
         {{/if}}
 
         <div id="popup" class="popup">
             <div class="popup-content">
+                <span class="print" onclick="printQR()">&#128424;</span>
                 <span class="chiudi" onclick="chiudiPopup()">&times;</span>
                 <h3 id="popup-titolo"></h3>
-                <p id="popup-contenuto"></p>
+                <img src="" id="popup-qr" class="qr"></img>
                 <div class="popup-footer">
                     <span id="popup-autore"></span>
                     <span id="popup-data"></span>
@@ -50,9 +51,9 @@
 
     </body>
     <script>
-        function apriPopup(titolo, contenuto, utente,  data){
+        function apriPopup(titolo, qr_image, utente,  data){
             document.getElementById("popup-titolo").textContent = titolo;
-            document.getElementById("popup-contenuto").textContent = contenuto;
+            document.getElementById("popup-qr").src = qr_image;
             document.getElementById("popup-autore").textContent = "author: " + utente;
             document.getElementById("popup-data").textContent = "created the: " + data;
 
@@ -65,6 +66,53 @@
 
         window.onclick = function(e) {
             if (e.target.id === "popup") chiudiPopup();
+        }
+
+        function printQR() {
+            const qr = document.getElementById("popup-qr");
+            const src = qr.src;
+
+            const w = window.open("", "PrintQR", "width=900,height=700");
+
+            w.document.write(`
+                <html>
+                <head>
+                    <title>QR Code</title>
+                    <style>
+                        /* Impostazioni di stampa */
+                        @page {
+                            size: A4 landscape;     /* ➜ A4 orizzontale */
+                            margin: 0;              /* ➜ senza margini */
+                        }
+
+                        body {
+                            margin: 0;
+                            width: 100vw;
+                            height: 100vh;
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            background: white;
+                        }
+
+                        img {
+                            width: 70vh;           /* ➜ QR molto grande */
+                            height: auto;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${src}">
+                </body>
+                </html>
+            `);
+
+            w.document.close();
+            w.focus();
+            w.print();
+            w.close();
         }
     </script>
 </html>

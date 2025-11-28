@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = require("../models/users");
 const QR_Code = require("../models/qr_code");
 const bcrypt = require("bcrypt");
+const Gen_QR = require("qrcode");
 
 (async () => {
     try {
@@ -43,22 +44,22 @@ const bcrypt = require("bcrypt");
 
       await QR_Code.deleteMany({});
       await QR_Code.insertMany([
-        {titolo: "di marco", contenuto: "ciao da marco", utente: "marco", privato: false},
-        {titolo: "di franco", contenuto: "ciao da franco", utente: "franco", privato: false},
-        {titolo: "di carlo", contenuto: "ciao da carlo", utente: "carlo", privato: false},
-        {titolo: "di luca", contenuto: "ciao da luca", utente: "luca", privato: false},
-        {titolo: "di marta", contenuto: "ciao da marta", utente: "marta", privato: false},
-        {titolo: "di giulia", contenuto: "ciao da giulia", utente: "giulia", privato: false},
-        {titolo: "di andrea", contenuto: "ciao da andrea", utente: "andrea", privato: false},
-        {titolo: "di francesca", contenuto: "ciao da francesca", utente: "francesca", privato: false},
-        {titolo: "di sofia", contenuto: "ciao da sofia", utente: "sofia", privato: false},
-        {titolo: "di giorgio", contenuto: "ciao da giorgio", utente: "giorgio", privato: false},
-        {titolo: "di valentina", contenuto: "ciao da valentina", utente: "valentina", privato: false},
-        {titolo: "di riccardo", contenuto: "ciao da riccardo", utente: "riccardo", privato: false},
-        {titolo: "di chiara", contenuto: "ciao da chiara", utente: "chiara", privato: false},
-        {titolo: "di alessio", contenuto: "ciao da alessio", utente: "alessio", privato: false},
-        {titolo: "di federica", contenuto: "ciao da federica", utente: "federica", privato: false},
-        {titolo: "di davide", contenuto: "ciao da davide", utente: "davide", privato: false}
+        {titolo: "di marco", qr_image: await Gen_QR.toDataURL("ciao da marco"), utente: "marco", pubblico: true},
+        {titolo: "di franco", qr_image: await Gen_QR.toDataURL("ciao da franco"), utente: "franco", pubblico: true},
+        {titolo: "di carlo", qr_image: await Gen_QR.toDataURL("ciao da carlo"), utente: "carlo", pubblico: true},
+        {titolo: "di luca", qr_image: await Gen_QR.toDataURL("ciao da luca"), utente: "luca", pubblico: true},
+        {titolo: "di marta", qr_image: await Gen_QR.toDataURL("ciao da marta"), utente: "marta", pubblico: true},
+        {titolo: "di giulia", qr_image: await Gen_QR.toDataURL("ciao da giulia"), utente: "giulia", pubblico: true},
+        {titolo: "di andrea", qr_image: await Gen_QR.toDataURL("ciao da andrea"), utente: "andrea", pubblico: true},
+        {titolo: "di francesca", qr_image: await Gen_QR.toDataURL("ciao da francesca"), utente: "francesca", pubblico: true},
+        {titolo: "di sofia", qr_image: await Gen_QR.toDataURL("ciao da sofia"), utente: "sofia", pubblico: true},
+        {titolo: "di giorgio", qr_image: await Gen_QR.toDataURL("ciao da giorgio"), utente: "giorgio", pubblico: true},
+        {titolo: "di valentina", qr_image: await Gen_QR.toDataURL("ciao da valentina"), utente: "valentina", pubblico: true},
+        {titolo: "di riccardo", qr_image: await Gen_QR.toDataURL("ciao da riccardo"), utente: "riccardo", pubblico: true},
+        {titolo: "di chiara", qr_image: await Gen_QR.toDataURL("ciao da chiara"), utente: "chiara", pubblico: true},
+        {titolo: "di alessio", qr_image: await Gen_QR.toDataURL("ciao da alessio"), utente: "alessio", pubblico: true},
+        {titolo: "di federica", qr_image: await Gen_QR.toDataURL("ciao da federica"), utente: "federica", pubblico: true},
+        {titolo: "di davide", qr_image: await Gen_QR.toDataURL("ciao da davide"), utente: "davide", pubblico: true}
   ]);
       console.log('Seed completato');
       process.exit(0);

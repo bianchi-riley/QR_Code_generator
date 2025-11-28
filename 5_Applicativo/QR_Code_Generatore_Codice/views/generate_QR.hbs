@@ -6,6 +6,9 @@
     <body>
         {{> _nav}}
         <div class="introduction">
+            {{#if msg}}
+                <p class="message">{{msg}}</p>
+            {{/if}}
             <h1>GENERATE YOUR QR</h1>
             <h2>Create and share your QR codes in seconds</h2>
         </div>

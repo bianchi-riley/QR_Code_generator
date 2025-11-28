@@ -9,10 +9,6 @@ const qrCodeSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    contenuto: {
-      type: String,
-      required: true
-    },
     data: {
       type: Date,
       default: Date.now
