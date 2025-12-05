@@ -66,6 +66,10 @@ app.use(currentUserUser);
 app.use(pagesRouter);
 app.use(authRouter);
 
+app.use((req, res) => {
+  res.status(404).render('404', { title: '404'});
+});
+
 app.listen(PORT, () =>{
     console.log("attivo")
 })

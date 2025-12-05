@@ -9,13 +9,14 @@ const fs = require("fs");
 const { requireAuth } = require("../middleware/auth");
 
 const storage = multer.memoryStorage(); // il file rimane in RAM
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });// mi permette di lavorare con i file utilizzando req.body
 
 router.get("/", async(req, res) => {
     try {
         const { msg } = req.query;
 
-        const listQR = (await QR_Code.find({pubblico: true})).reverse();
+        //Ricerca QR pubblici
+        const listQR = (await QR_Code.find({pubblico: true})).reverse();//metodo reverse utilizzato per ottenere i QR dal più recente al più vecchio
 
         res.render("home", { title: "Home", msg, listQR});
     }catch (err){
@@ -31,6 +32,7 @@ router.post("/search_home", async(req, res) => {
 
         const searched = req.body.search;
     
+        //Query con regex per cercare per titolo o untente
         const listQR = (await QR_Code.find({$or: [
             { titolo: { $regex: searched, $options: "i" } },
             { utente: { $regex: searched, $options: "i" } }
@@ -51,6 +53,7 @@ router.post("/search_personal", async(req, res) => {
 
         const searched = req.body.search;
     
+        //Query con regex con solo il titolo dato che si conosce già l'utente
         const listQR = (await QR_Code.find({ utente: req.session.username, titolo: {$regex: searched, $options: "i"}})).reverse();
 
         res.render("your_QRs", { title: "Your QRs", msg, listQR });
@@ -96,7 +99,9 @@ router.post("/generate", requireAuth, upload.single("file"), async(req, res) =>{
 
         let finalContent = content.trim() || null;
 
+        //Insrimento nella cartella uploads se file
         if (req.file) {
+            //Generazione di un nome univoco pe evitare duplicati
             const newFileName =  Date.now() + "-" + req.file.originalname
             const uploadPath = path.join("uploads", newFileName); // cartella uploads
             fs.writeFile(uploadPath, req.file.buffer, (err) => {
@@ -105,12 +110,14 @@ router.post("/generate", requireAuth, upload.single("file"), async(req, res) =>{
                 }
             });
 
+            //Contenuto finale come percorso al file nel sito
             finalContent = `${req.protocol}://${req.get("host")}/uploads/${newFileName}`;
         }
 
+        //Generazione immagine QR in base 64 e salvataggio nel DB
         const qrBase64 = await Gen_QR.toDataURL(finalContent);
 
-        const newQR = new QR_Code({titolo: title, qr_image: qrBase64, contenuto: finalContent, utente: username, pubblico: public});
+        const newQR = new QR_Code({titolo: title, qr_image: qrBase64, utente: username, pubblico: public});
 
         await newQR.save();
 
@@ -125,6 +132,7 @@ router.get("/your_QRs", async(req, res) => {
     try {
         const { msg } = req.query;
 
+        //Ricerca QR dell'utente
         const listQR = await QR_Code.find({utente: req.session.username}).lean();
 
         res.render("your_QRs", { title: "Your QRs", msg, listQR});

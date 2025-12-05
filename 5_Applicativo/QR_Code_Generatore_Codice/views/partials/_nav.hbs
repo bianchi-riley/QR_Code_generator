@@ -19,6 +19,7 @@
 </nav>
 
 <script>
+  //Alert di conferma del logout
   function Confirm(){
     if(confirm("Are u sure u want to log out") == true){
       return fetch("logout", { method: "post"})

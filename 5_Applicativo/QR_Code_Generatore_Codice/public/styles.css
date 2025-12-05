@@ -70,6 +70,22 @@ body{
     font-size: 1.1rem;
 }
 
+.button{
+    margin-top: .8rem;
+    padding: .4rem 1.3rem;
+    font-size: 1.1rem;
+    border-radius: 13px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+a {
+    text-decoration: none;
+}
+
 .error {
     background: #ff9191;
     border: 1px solid #ff3434;
