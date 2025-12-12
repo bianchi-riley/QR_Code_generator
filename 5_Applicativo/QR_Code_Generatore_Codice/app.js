@@ -1,9 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 
-const User = require("./models/users");
-const QR_Code = require("./models/qr_code");
-
 const PORT = process.env.PORT || 8080;
 const SESSION_KEYS = (process.env.SESSION_KEYS || 'dev1,dev2').split(',').map(s => s.trim());
 
@@ -45,6 +42,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
+
 // Helper personalizzato per formattare la data
 hbs.registerHelper("formatDate", function (date) {
   if (!date) return "";

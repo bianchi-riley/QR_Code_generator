@@ -82,7 +82,7 @@ body{
     display: inline-block;
 }
 
-a {
+.page404 a{
     text-decoration: none;
 }
 
