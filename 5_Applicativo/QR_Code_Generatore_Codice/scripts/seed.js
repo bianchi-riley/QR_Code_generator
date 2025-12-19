@@ -11,22 +11,22 @@ const Gen_QR = require("qrcode");
       await User.deleteMany({});
       // Dati fittizi con password in chiaro (verranno hashate dopo)
       const users = [
-        { username: "marco", password: "nqjdld" },
-        { username: "franco", password: "laownfl" },
-        { username: "carlo", password: "owpfnal" },
-        { username: "luca", password: "qerzti" },
-        { username: "marta", password: "plxwen" },
-        { username: "giulia", password: "ndtrsa" },
-        { username: "andrea", password: "uvqlei" },
-        { username: "francesca", password: "tpsmdo" },
-        { username: "sofia", password: "lyqwen" },
-        { username: "giorgio", password: "fzupko" },
-        { username: "valentina", password: "hmrsal" },
-        { username: "riccardo", password: "pejvta" },
-        { username: "chiara", password: "slbqno" },
-        { username: "alessio", password: "rmxtye" },
-        { username: "federica", password: "wqnpla" },
-        { username: "davide", password: "tbxero" }
+        { username: "marco", password: "nqjdldnqjdld" },
+        { username: "franco", password: "laownfllaownfl" },
+        { username: "carlo", password: "owpfnalowpfnal" },
+        { username: "luca", password: "qerztiqerzti" },
+        { username: "marta", password: "plxwenplxwen" },
+        { username: "giulia", password: "ndtrsandtrsa" },
+        { username: "andrea", password: "uvqleiuvqlei" },
+        { username: "francesca", password: "tpsmdotpsmdo" },
+        { username: "sofia", password: "lyqwenlyqwen" },
+        { username: "giorgio", password: "fzupkofzupko" },
+        { username: "valentina", password: "hmrsalhmrsal" },
+        { username: "riccardo", password: "pejvtapejvta" },
+        { username: "chiara", password: "slbqnoslbqno" },
+        { username: "alessio", password: "rmxtyermxtye" },
+        { username: "federica", password: "wqnplawqnpla" },
+        { username: "davide", password: "tbxerotbxero" }
       ];
 
       // 🔐 Hash delle password prima dell’inserimento

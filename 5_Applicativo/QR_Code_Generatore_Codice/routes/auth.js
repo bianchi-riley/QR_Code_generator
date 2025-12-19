@@ -47,12 +47,16 @@ router.post("/create_account", async(req, res) => {
     //Controllo se l'utente eseste già
     const userexist = await User.findOne({ username });
     if(userexist){
-        return res.status(400).render("create_account", {title: "Create Account", errorU: "username not available"});
+        return res.status(400).render("create_account", 
+        {title: "Create Account", 
+        errorU: "username not available"});
     }
 
     //Controllo se la password è almeno di 8 cartteri
     if(password.length < 8){
-        return res.status(400).render("create_account", {title: "Create Account", errorP: "password must contain at least 8 characters"});
+        return res.status(400).render("create_account", 
+        {title: "Create Account", 
+        errorP: "password must contain at least 8 characters"});
     }
 
     //Criptazione password

@@ -35,6 +35,7 @@
 
         <div id="popup" class="popup">
             <div class="popup-content">
+                <span class="print" onclick="printQR()">&#128424;</span>
                 <span class="chiudi" onclick="chiudiPopup()">&times;</span>
                 <h3 id="popup-titolo"></h3>
                 <img src="" id="popup-qr" class="qr"></img>
@@ -62,6 +63,53 @@
 
         window.onclick = function(e) {
             if (e.target.id === "popup") chiudiPopup();
+        }
+
+        function printQR() {
+            const qr = document.getElementById("popup-qr");
+            const src = qr.src;
+
+            const w = window.open("", "PrintQR", "width=900,height=700");
+
+            w.document.write(`
+                <html>
+                <head>
+                    <title>QR Code</title>
+                    <style>
+                        /* Impostazioni di stampa */
+                        @page {
+                            size: A4 landscape;     /* ➜ A4 orizzontale */
+                            margin: 0;              /* ➜ senza margini */
+                        }
+
+                        body {
+                            margin: 0;
+                            width: 100vw;
+                            height: 100vh;
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            background: white;
+                        }
+
+                        img {
+                            width: 70vh;           /* ➜ QR molto grande */
+                            height: auto;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${src}">
+                </body>
+                </html>
+            `);
+
+            w.document.close();
+            w.focus();
+            w.print();
+            w.close();
         }
     </script>
 </html>

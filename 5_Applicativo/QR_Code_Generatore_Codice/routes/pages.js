@@ -117,7 +117,10 @@ router.post("/generate", requireAuth, upload.single("file"), async(req, res) =>{
         //Generazione immagine QR in base 64 e salvataggio nel DB
         const qrBase64 = await Gen_QR.toDataURL(finalContent);
 
-        const newQR = new QR_Code({titolo: title, qr_image: qrBase64, utente: username, pubblico: public});
+        const newQR = new QR_Code({titolo: title, 
+            qr_image: qrBase64, 
+            utente: username, 
+            pubblico: public});
 
         await newQR.save();
 
